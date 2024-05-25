@@ -26,6 +26,17 @@ func handleType(userInputArg string) {
 	return
 }
 
+func handleExecution(command string, args []string) {
+	cmd := exec.Command(command, args...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+
+	err := cmd.Run()
+	if err != nil {
+		fmt.Printf("%s: command not found\n", cmd)
+	}
+}
+
 func commandReader() {
 	for {
 		fmt.Fprint(os.Stdout, "$ ")
@@ -40,7 +51,7 @@ func commandReader() {
 		case "type":
 			handleType(command[1])
 		default:
-			fmt.Printf("%s: command not found\n", strings.TrimRight(userInput, "\n"))
+			handleExecution(command[0], command[1:])
 		}
 	}
 }
