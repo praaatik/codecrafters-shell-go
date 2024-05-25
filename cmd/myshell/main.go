@@ -9,17 +9,20 @@ import (
 )
 
 func handleType(userInputArg string) {
-	cmd := exec.Command("sh", "-c", fmt.Sprintf("type -P %s", userInputArg))
-	output, err := cmd.Output()
-	if err != nil {
-		fmt.Printf("%s command not found\n", strings.TrimRight(userInputArg, "\n"))
+	// hard coding the values, for now
+	if userInputArg == "echo" || userInputArg == "exit" || userInputArg == "type" {
+		fmt.Printf("%s is a shell builtin\n", userInputArg)
 		return
 	}
 
-	// fmt.Print("this is the final output -> ")
-	fmt.Printf("%s is %s", userInputArg, string(output))
+	cmd := exec.Command("sh", "-c", fmt.Sprintf("type -P %s", userInputArg))
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Printf("%s: not found\n", userInputArg)
+		return
+	}
 
-	// fmt.Print(string(output))
+	fmt.Printf("%s is %s", userInputArg, string(output))
 	return
 }
 
@@ -36,7 +39,6 @@ func commandReader() {
 			os.Exit(0)
 		case "type":
 			handleType(command[1])
-
 		default:
 			fmt.Printf("%s: command not found\n", strings.TrimRight(userInput, "\n"))
 		}
@@ -44,6 +46,5 @@ func commandReader() {
 }
 
 func main() {
-	// fmt.Println(os.Args)
 	commandReader()
 }
