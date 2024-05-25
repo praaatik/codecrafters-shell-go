@@ -10,17 +10,6 @@ import (
 
 func handleType(userInputArg string) {
 	cmd := exec.Command("sh", "-c", fmt.Sprintf("type -P %s", userInputArg))
-
-	// fmt.Println("=========")
-	// // fmt.Println("hijacking to get the env")
-	// // fmt.Println(cmd.Environ())
-	// // fmt.Println(cmd.Env)
-	// // fmt.Println("====")
-	// fmt.Println("here is the path variable")
-	// fmt.Println(os.Getenv("PATH"))
-	// // fmt.Println("====")
-	//
-	// fmt.Println("=========")
 	output, err := cmd.Output()
 	if err != nil {
 		fmt.Printf("%s command not found\n", strings.TrimRight(userInputArg, "\n"))
@@ -55,6 +44,6 @@ func commandReader() {
 }
 
 func main() {
-	fmt.Println(os.Args)
+	// fmt.Println(os.Args)
 	commandReader()
 }
