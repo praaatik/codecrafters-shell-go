@@ -7,12 +7,15 @@ import (
 )
 
 func main() {
-	// You can use print statements as follows for debugging, they'll be visible when running tests.
-	// fmt.Println("Logs from your program will appear here!")
-
-	// Uncomment this block to pass the first stage
 	fmt.Fprint(os.Stdout, "$ ")
+	//fmt.Printf("===")
 
-	// Wait for user input
-	bufio.NewReader(os.Stdin).ReadString('\n')
+	userInput, err := bufio.NewReader(os.Stdin).ReadString('\n')
+	if err != nil {
+		fmt.Println("error")
+		fmt.Fprintln(os.Stderr, err)
+	}
+	//fmt.Printf("===")
+	fmt.Printf("%s:command not found", userInput)
+	//fmt.Fprintf(os.Stdout, "%s: command not found", userInput)
 }
