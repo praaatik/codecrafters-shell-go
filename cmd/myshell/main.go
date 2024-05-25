@@ -4,11 +4,18 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
-func handleEcho(args []string) {
-	fmt.Println(strings.Join(args, " "))
+func handleType(userInputArg string) {
+	cmd := exec.Command("sh", "-c", fmt.Sprintf("type %s", userInputArg))
+	output, err := cmd.Output()
+	if err != nil {
+		fmt.Printf("%s command not found\n", strings.TrimRight(userInputArg, "\n"))
+	}
+
+	fmt.Print(string(output))
 }
 
 func commandReader() {
@@ -19,15 +26,15 @@ func commandReader() {
 
 		switch command[0] {
 		case "echo":
-			//handleEcho(command[1:])
 			fmt.Println(strings.Join(command[1:], " "))
 		case "exit":
 			os.Exit(0)
+		case "type":
+			handleType(command[1])
 		default:
 			fmt.Printf("%s: command not found\n", strings.TrimRight(userInput, "\n"))
 		}
 	}
-
 }
 
 func main() {
